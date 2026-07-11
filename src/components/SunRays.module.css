@@ -1,0 +1,30 @@
+.wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: -1; /* drop behind heroInner's in-flow content, which paints above z-index:auto by default */
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--max-content);
+  padding-inline: clamp(1.5rem, 5vw, 5rem);
+  position: relative;
+}
+
+.rays {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    display: none;
+  }
+}

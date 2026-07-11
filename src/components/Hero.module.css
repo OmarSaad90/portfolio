@@ -1,0 +1,118 @@
+.hero {
+  min-height: 100svh;
+  padding-top: calc(var(--nav-height) + clamp(3rem, 6vh, 5rem));
+  padding-bottom: clamp(3rem, 6vh, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Centered content column ────────────────────────── */
+
+.heroInner {
+  width: 100%;
+  max-width: var(--max-content);
+  padding-inline: clamp(1.5rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Headline ───────────────────────────────────────── */
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.emphasis {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* ─── Content (bio + CTAs) ───────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  margin-top: var(--sp-2);
+}
+
+.bio {
+  font-size: var(--text-lg);
+  color: var(--color-ink);
+  line-height: 1.55;
+  max-width: 44ch;
+}
+
+.ctaRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.primaryCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.5rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 5px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s var(--ease-out-expo);
+}
+
+.primaryCta:hover {
+  background: oklch(0.380 0.175 232);
+}
+
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.375rem;
+  border: 1.5px solid oklch(0.380 0.175 232 / 0.5);
+  color: oklch(0.280 0.120 232);
+  border-radius: 5px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.secondaryCta:hover {
+  border-color: oklch(0.380 0.175 232);
+  color: oklch(0.380 0.175 232);
+  background: oklch(0.380 0.175 232 / 0.07);
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .headline {
+    max-width: 100%;
+  }
+
+  .ctaRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

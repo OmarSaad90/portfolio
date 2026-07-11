@@ -1,0 +1,139 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: oklch(0.145 0.018 240 / 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  overflow-y: auto;
+}
+
+.dialog {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: var(--color-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 20px 60px oklch(0.145 0.018 240 / 0.25),
+    0 8px 24px oklch(0.145 0.018 240 / 0.15);
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  z-index: var(--z-raised);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: oklch(1 0 0 / 0.9);
+  color: var(--color-ink);
+  transition: background 0.2s, transform 0.15s var(--ease-out-expo);
+}
+
+.closeButton:hover {
+  background: white;
+  transform: scale(1.06);
+}
+
+.imageWrap {
+  background: var(--color-ink);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.info {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.categoryPill {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-primary);
+  background: oklch(0.430 0.175 232 / 0.08);
+  padding: 3px var(--sp-3);
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.comingSoonBadge {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-accent-text);
+  background: oklch(0.720 0.130 68 / 0.12);
+  padding: 2px var(--sp-3);
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+
+.description {
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+}
+
+.techTag {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  padding: 2px var(--sp-3);
+  border-radius: 2px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  width: fit-content;
+  margin-top: var(--sp-2);
+  transition: gap 0.2s var(--ease-out-expo), color 0.2s;
+}
+
+.link:hover {
+  gap: var(--sp-3);
+  color: oklch(0.380 0.175 232);
+}

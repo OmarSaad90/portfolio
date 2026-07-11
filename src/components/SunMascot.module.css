@@ -1,0 +1,5 @@
+.mascot {
+  width: clamp(5.5rem, 9vw, 8rem);
+  height: clamp(5.5rem, 9vw, 8rem);
+  flex-shrink: 0;
+}

@@ -1,0 +1,169 @@
+/* ─── Tokens ─────────────────────────────────────────── */
+
+:root {
+  /* Colors */
+  --color-bg:      oklch(1.000 0.000   0);
+  --color-surface: oklch(0.960 0.010 232);
+  --color-primary: oklch(0.430 0.175 232);
+  --color-accent:      oklch(0.720 0.130  68);
+  --color-accent-text: oklch(0.420 0.140  68);   /* text-safe shade of accent; ≥4.5:1 on its own tint */
+  --color-ink:     oklch(0.145 0.018 240);
+  --color-muted:   oklch(0.460 0.015 240);
+  --color-border:  oklch(0.890 0.008 232);
+
+  /* Fonts — variables set by next/font */
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-body:    var(--font-manrope), system-ui, sans-serif;
+  --font-serif-accent: var(--font-piazzolla), Georgia, serif;
+
+  /* Fluid type scale */
+  --text-xs:   clamp(0.75rem,  0.72rem + 0.15vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.84rem + 0.18vw, 1rem);
+  --text-base: clamp(1rem,     0.96rem + 0.20vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1.07rem + 0.28vw, 1.25rem);
+  --text-xl:   clamp(1.25rem,  1.15rem + 0.50vw, 1.5rem);
+  --text-2xl:  clamp(1.5rem,   1.30rem + 1.00vw, 2.125rem);
+  --text-3xl:  clamp(2rem,     1.60rem + 2.00vw, 3.25rem);
+  --text-4xl:  clamp(3rem,     2.20rem + 4.00vw, 5.5rem);
+  --text-hero: clamp(3.5rem,   2.50rem + 5.00vw, 6rem);
+
+  /* Spacing */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.25rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+
+  /* Layout */
+  --max-content: 1200px;
+  --nav-height:  4rem;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-expo:  cubic-bezier(0.7, 0, 0.84, 0);
+
+  /* Z-index scale */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 50;
+  --z-nav:     100;
+  --z-modal:   200;
+  --z-tooltip: 300;
+}
+
+/* ─── Reset ──────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+input, textarea, select {
+  font: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ─── Typography base ────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ─── Shared utilities ───────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: clamp(var(--sp-6), 5vw, var(--sp-16));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ─── Focus styles ───────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─── Reduced motion ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Selection ──────────────────────────────────────── */
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}

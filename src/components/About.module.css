@@ -1,0 +1,132 @@
+.section {
+  background: var(--color-surface);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(var(--sp-10), 6vw, var(--sp-20)) 0;
+}
+
+.inner {
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: clamp(var(--sp-6), 5vw, var(--sp-16));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(var(--sp-10), 7vw, var(--sp-20));
+  align-items: stretch;
+}
+
+/* ─── Text column ────────────────────────────────────── */
+
+.textCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.heading {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  line-height: 1.05;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  max-width: 60ch;
+}
+
+.copy p {
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  line-height: 1.65;
+}
+
+/* ─── Stack column ───────────────────────────────────── */
+
+.stackCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--sp-8);
+  padding-top: var(--sp-2);
+}
+
+/* ─── Tech icon groups ───────────────────────────────── */
+
+.techGroup,
+.infraGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.techGroupLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+}
+
+.iconRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6) var(--sp-8);
+}
+
+.iconItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 56px;
+  transition: transform 0.2s var(--ease-out-expo);
+}
+
+.iconItem:hover {
+  transform: translateY(-2px);
+}
+
+.iconName {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ─── Infrastructure text tags ───────────────────────── */
+
+.infraRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.infraTag {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-muted);
+  padding: var(--sp-2) var(--sp-5);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-12);
+  }
+
+  .stackCol {
+    padding-top: 0;
+  }
+
+  .iconRow {
+    gap: var(--sp-4);
+  }
+}
