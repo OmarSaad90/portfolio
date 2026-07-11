@@ -9,12 +9,27 @@ const EASE = [0.16, 1, 0.3, 1] as const
 export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault()
+    const form = e.currentTarget
     setStatus('sending')
-    // Replace with your form endpoint (e.g., Resend, Formspree, etc.)
-    await new Promise((r) => setTimeout(r, 800))
-    setStatus('sent')
+    try {
+      const data = new FormData(form)
+      data.append('access_key', process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? '')
+      data.append('subject', 'New message from omarsaad.dev portfolio')
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data,
+      })
+      const result = await res.json()
+      if (result.success) {
+        setStatus('sent')
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -72,12 +87,19 @@ export default function Contact() {
           transition={{ duration: 0.65, ease: EASE, delay: 0.1 }}
         >
           {status === 'sent' ? (
-            <div className={styles.sentMessage}>
+            <div className={styles.sentMessage} role="status">
               <span className={styles.sentIcon}>✓</span>
               <p>Got it. I&apos;ll be in touch shortly.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className={styles.form}>
+              <input
+                type="checkbox"
+                name="botcheck"
+                tabIndex={-1}
+                aria-hidden="true"
+                style={{ display: 'none' }}
+              />
               <div className={styles.row}>
                 <label className={styles.field}>
                   <span className={styles.label}>Name</span>
@@ -119,9 +141,9 @@ export default function Contact() {
               >
                 {status === 'sending' ? 'Sending…' : 'Send message'}
               </button>
-              {status === 'error' && (
-                <p className={styles.errorMsg}>Something went wrong. Try emailing me directly.</p>
-              )}
+              <p role="status" aria-live="polite" className={styles.errorMsg}>
+                {status === 'error' && 'Something went wrong. Try emailing me directly.'}
+              </p>
             </form>
           )}
         </motion.div>
