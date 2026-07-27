@@ -2,7 +2,7 @@
 
 ## Theme
 
-Light. Pure white surface lets the deep cobalt primary carry the brand's confidence and precision, with warm amber accent delivering the personal warmth. Warmth lives in the brand colors, not the background.
+Dark. Cosmic charcoal and wine-ash surfaces put the sun mascot's warm amber in the position of an actual light source in a dark sky; turquoise carries interaction and precision where cobalt used to. Warmth still lives in the brand colors (amber, mascot, glow), not the background.
 
 ## Colors
 
@@ -11,26 +11,32 @@ All values in OKLCH.
 ```css
 :root {
   /* Surface */
-  --color-bg:      oklch(1.000 0.000   0);   /* pure white */
-  --color-surface: oklch(0.970 0.010 232);   /* barely-tinted section bg */
+  --color-bg:      oklch(0.255 0.0210 293);   /* cosmic charcoal */
+  --color-surface: oklch(0.294 0.0165 338);   /* wine ash — alternate section bg */
 
   /* Brand */
-  --color-primary: oklch(0.430 0.175 232);   /* deep cobalt — authority, precision */
-  --color-accent:  oklch(0.720 0.130  68);   /* warm amber — energy, warmth */
+  --color-primary:     oklch(0.720 0.1200 195);   /* turquoise — links, CTAs, focus */
+  --color-accent:      oklch(0.800 0.1600  96);   /* sun amber — mascot, warmth, glow */
+  --color-accent-text: oklch(0.860 0.1500  96);   /* lighter amber; text on its own tint */
 
   /* Text */
-  --color-ink:     oklch(0.145 0.018 240);   /* near-black with cobalt trace — body text */
-  --color-muted:   oklch(0.460 0.015 240);   /* secondary text — ≥4.5:1 on bg */
+  --color-ink:     oklch(0.940 0.0120  90);   /* near-white, warm trace — body text */
+  --color-muted:   oklch(0.720 0.0300 280);   /* secondary text — ≥4.5:1 on bg */
+  --color-border:  oklch(0.940 0.0120  90 / 0.14);   /* hairline on dark surfaces */
+  --color-on-fill: var(--color-bg);   /* dark text for use on bright fills (primary/accent) */
 }
 ```
 
-**Contrast checks:**
-- `--color-ink` on `--color-bg`: ≈18:1 (well above 7:1 for body text)
-- `--color-muted` on `--color-bg`: ≈4.7:1 (passes AA for body text)
-- White text on `--color-primary`: ≈5.3:1 (passes AA for large text; use for buttons/badges)
-- White text on `--color-accent`: passes for bold labels; use with caution at small sizes
+**Contrast checks (measured, not estimated):**
+- `--color-ink` on `--color-bg`: ≈13.3:1
+- `--color-muted` on `--color-bg`: ≈6.4:1 (passes AA for body text with margin)
+- `--color-primary` (turquoise) on `--color-bg`: ≈6.7:1 as text/links
+- `--color-accent` (amber) on `--color-bg`: ≈8.5:1
+- `--color-on-fill` (dark) on `--color-primary` or `--color-accent` fills: ≈6.7:1 / 8.5:1 — white text on either fill only hits ~2.4:1, so filled buttons/pills use dark text, never white.
 
-**Color strategy:** Committed — the cobalt primary carries 30-60% of the visual identity. The amber accent is used sparingly for CTAs, highlights, and hover states. Never use both saturated colors in close proximity.
+**Color strategy:** Committed — cosmic charcoal/wine-ash carry the surface, turquoise carries interaction (30-60% of visual identity where cobalt used to sit), amber is reserved for the sun mascot and its halo plus sparing CTA/badge use. Never use both saturated colors in close proximity.
+
+**Retuning alpha variants:** hover/tint states derive from the base tokens via CSS relative-color syntax (`oklch(from var(--color-primary) l c h / 0.35)` etc.) instead of hardcoded duplicate shades, so changing a base token retunes every derived state with it.
 
 ## Typography
 
@@ -114,13 +120,17 @@ Library: **Motion** (formerly Framer Motion). All animations respect `prefers-re
 
 ## Components
 
-**Primary button:** Cobalt fill (`--color-primary`), white text, 8px radius, 16px vertical / 28px horizontal padding. Hover: `oklch(0.380 0.175 232)` (darkened 5%). Focus: 2px offset ring in primary.
+**Primary button:** Turquoise fill (`--color-primary`), dark text (`--color-on-fill`), 8px radius, 16px vertical / 28px horizontal padding. Hover: lightened via relative-color syntax plus a soft turquoise glow (`box-shadow`). Focus: 2px offset ring in primary.
 
-**Secondary button / ghost:** Transparent fill, cobalt border (1.5px), cobalt text. Hover: 6% cobalt tint background.
+**Secondary button / ghost:** Transparent fill, turquoise border (1.5px, 50% alpha), turquoise text. Hover: 10% turquoise tint background.
 
-**Project card:** No identical card grid. Each featured project gets differentiated treatment — alternate layout (image left, image right, image full-bleed) across the projects section.
+**Project card:** No identical card grid. Each featured project gets differentiated treatment — alternate layout (image left, image right, image full-bleed) across the projects section. Shadows are true dark (`oklch(0 0 0 / …)`), not the low-alpha near-black used for depth on a light bg.
 
-**Links:** Cobalt color, underline on hover (2px offset, animated width from 0 to 100%).
+**Links:** Turquoise color, underline on hover (2px offset, animated width from 0 to 100%).
+
+**Sun mascot:** Amber blob (`--color-accent`) is the one fixed identity element. Its eyes/smile use `--color-bg` (not `--color-ink`) so the face stays dark-on-amber regardless of theme direction. A blurred radial-gradient halo in `--color-accent` sits behind it (`SunMascot.module.css`) so it reads as a light source against the dark sky.
+
+**Tech-stack icons (About):** sit on small `--color-ink` tiles (46px, 10px radius) so single-color/dark brand logos (e.g. the solid-black Next.js mark) stay visible regardless of the icon's own palette.
 
 ## Tokens — do not use
 
@@ -129,3 +139,5 @@ Library: **Motion** (formerly Framer Motion). All animations respect `prefers-re
 - `border-left` > 1px as decorative accent stripe
 - Glassmorphism (blurred frosted cards decoratively)
 - Eyebrow text (small all-caps tracked label above every heading)
+- White text on `--color-primary` or `--color-accent` fills (fails contrast at this lightness) — use `--color-on-fill`
+- `--color-ink` as an image/loading backdrop (it's near-white in this theme; use `--color-surface` instead, per `Projects.module.css` `.preview` and `ProjectOverlay.module.css` `.imageWrap`)

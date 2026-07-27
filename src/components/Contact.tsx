@@ -131,7 +131,7 @@ export default function Contact() {
                   required
                   rows={5}
                   className={styles.textarea}
-                  placeholder="Tell me about your project — the more detail the better."
+                  placeholder="Tell me about your project, the more detail the better."
                 />
               </label>
               <button

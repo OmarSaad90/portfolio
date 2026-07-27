@@ -48,7 +48,9 @@ export default function About() {
               <div className={styles.iconRow}>
                 {tools.map(({ icon, name }) => (
                   <div key={name} className={styles.iconItem}>
-                    <Icon icon={icon} width={46} height={46} />
+                    <span className={styles.iconTile}>
+                      <Icon icon={icon} width={30} height={30} />
+                    </span>
                     <span className={styles.iconName}>{name}</span>
                   </div>
                 ))}
@@ -86,7 +88,7 @@ export default function About() {
             transition={{ duration: 0.65, ease: EASE, delay: 0.1 }}
           >
             <p>
-              I&apos;m a web developer and IT specialist who builds websites for businesses in Canada, US and the Middle East. My clients are construction firms, law offices, education platforms, and consulting practices, organizations where the website needs to work, not just look good.
+              I&apos;m a web developer, designer, and IT specialist based in Lebanon, building websites for businesses of any kind across Lebanon, the Middle East, Canada, and the US. Past clients include construction firms, law offices, education platforms, and consulting practices; the industry changes, but the standard doesn&apos;t: the website needs to work, not just look good.
             </p>
             <p>
               What I bring is ownership of the whole project. Design, development, deployment, domain configuration, DNS setup, email forwarding, I handle it myself so clients get one point of contact from the first conversation to a live, running site.

@@ -12,16 +12,16 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'ppa-consulting',
-    name: 'PPA Consulting',
-    domain: 'ppaconsulting.ca',
-    url: 'https://ppaconsulting.ca',
-    category: 'Construction consulting',
+    id: 'ppa-peng-academy',
+    name: 'PPA P.Eng. Academy',
+    domain: 'ppapeng.ca',
+    url: 'https://ppapeng.ca',
+    category: 'Education platform',
     description:
-      'Custom website for a Canadian construction delay claims consulting firm. Built from scratch with HTML, CSS, and JS — fully branded, SEO optimized, deployed with a custom domain.',
-    tech: ['HTML', 'CSS', 'JS', 'SEO'],
+      'Web platform for engineers preparing for Professional Engineer certification across Canada. Features a real-time live chat system, course listings, and an admin dashboard.',
+    tech: ['React', 'TypeScript', 'Supabase', 'Netlify'],
     status: 'live',
-    image: '/projects/ppa-consulting.jpg',
+    image: '/projects/ppa-peng-academy.jpg',
   },
   {
     id: 'rockwood-civil',
@@ -36,28 +36,16 @@ export const projects: Project[] = [
     image: '/projects/rockwood-civil.jpg',
   },
   {
-    id: 'tilux',
-    name: 'Tilux',
-    domain: 'tilux.ca',
-    url: 'https://tilux.ca',
-    category: 'Renovation',
+    id: 'ppa-consulting',
+    name: 'PPA Consulting',
+    domain: 'ppaconsulting.ca',
+    url: 'https://ppaconsulting.ca',
+    category: 'Construction consulting',
     description:
-      'Official website for a Canadian renovation company. Modern, responsive design focused on showcasing services, project quality, and driving customer engagement.',
-    tech: ['React', 'CSS', 'Responsive'],
+      'Custom website for a Canadian construction delay claims consulting firm. Built from scratch with HTML, CSS, and JS — fully branded, SEO optimized, deployed with a custom domain.',
+    tech: ['HTML', 'CSS', 'JS', 'SEO'],
     status: 'live',
-    image: '/projects/tilux.jpg',
-  },
-  {
-    id: 'ppa-peng-academy',
-    name: 'PPA P.Eng. Academy',
-    domain: 'ppapeng.ca',
-    url: 'https://ppapeng.ca',
-    category: 'Education platform',
-    description:
-      'Web platform for engineers preparing for Professional Engineer certification across Canada. Features a real-time live chat system, course listings, and an admin dashboard.',
-    tech: ['React', 'TypeScript', 'Supabase', 'Netlify'],
-    status: 'live',
-    image: '/projects/ppa-peng-academy.jpg',
+    image: '/projects/ppa-consulting.jpg',
   },
   {
     id: 'aedifica',
@@ -68,7 +56,7 @@ export const projects: Project[] = [
     description:
       'Platform for a workforce development initiative creating construction management career pathways across New Jersey. A complex multi-stakeholder vision turned into a clear digital experience for institutions, employers, and prospective participants.',
     tech: ['Next.js', 'TypeScript', 'React'],
-    status: 'coming-soon',
+    status: 'live',
     image: '/projects/aedifica.jpg',
   },
   {
@@ -82,5 +70,17 @@ export const projects: Project[] = [
     tech: ['Next.js', 'TypeScript', 'CSS'],
     status: 'live',
     image: '/projects/travo.jpg',
+  },
+  {
+    id: 'tilux',
+    name: 'Tilux',
+    domain: 'tilux.ca',
+    url: 'https://tilux.ca',
+    category: 'Renovation',
+    description:
+      'Official website for a Canadian renovation company. Modern, responsive design focused on showcasing services, project quality, and driving customer engagement.',
+    tech: ['React', 'CSS', 'Responsive'],
+    status: 'live',
+    image: '/projects/tilux.jpg',
   },
 ]

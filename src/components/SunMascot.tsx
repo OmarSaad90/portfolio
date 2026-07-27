@@ -8,7 +8,7 @@ const EYE_TRACK_RANGE = 8
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
-const SUN_YELLOW = 'oklch(0.80 0.16 96)'
+const SUN_YELLOW = 'var(--color-accent)'
 
 const BLOB_PATH =
   'M48 4C60 4 66 10 74 18C82 26 90 34 90 46C90 58 84 68 74 76C64 84 54 90 42 88C30 86 18 80 10 68C4 58 4 46 8 34C12 22 20 12 32 6C37 3 43 4 48 4Z'
@@ -62,6 +62,27 @@ export default function SunMascot() {
       transition={{ duration: 0.8, ease: EASE }}
       aria-hidden="true"
     >
+      {/* Hidden filter def: gives the CSS corona glow (SunMascot.module.css
+          .mascot::before) a living, slightly irregular flicker instead of a
+          static blurred circle. Zero-sized and invisible on its own. */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <filter id="sun-corona-turbulence" x="-50%" y="-50%" width="200%" height="200%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise">
+              {!reduceMotion && (
+                <animate
+                  attributeName="baseFrequency"
+                  values="0.9;1.05;0.82;0.95;0.9"
+                  dur="7s"
+                  repeatCount="indefinite"
+                />
+              )}
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </defs>
+      </svg>
+
       <motion.svg
         ref={svgRef}
         viewBox="0 0 96 96"
@@ -104,14 +125,14 @@ export default function SunMascot() {
                   }
             }
           >
-            <circle cx="36" cy="47" r="3.4" fill="var(--color-ink)" />
-            <circle cx="62" cy="47" r="3.4" fill="var(--color-ink)" />
+            <circle cx="36" cy="47" r="3.4" fill="var(--color-bg)" />
+            <circle cx="62" cy="47" r="3.4" fill="var(--color-bg)" />
           </motion.g>
 
           {/* Smile — closed default expression */}
           <motion.path
             d="M33 59c3.8 6.6 10.2 10.2 16.5 10.2s12.7-3.6 16.5-10.2"
-            stroke="var(--color-ink)"
+            stroke="var(--color-bg)"
             strokeWidth="3.6"
             strokeLinecap="round"
             fill="none"
@@ -136,7 +157,7 @@ export default function SunMascot() {
           {/* Grin — brief open ":D" expression */}
           <motion.path
             d="M36.5 58c0 7.2 5.8 11.6 13.5 11.6s13.5-4.4 13.5-11.6c0-2.1-1.4-3.2-3.2-3.2H39.7c-1.8 0-3.2 1.1-3.2 3.2Z"
-            fill="var(--color-ink)"
+            fill="var(--color-bg)"
             style={reduceMotion ? { opacity: 0 } : undefined}
             animate={
               reduceMotion

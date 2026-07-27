@@ -1,5 +1,12 @@
 .section {
-  background: var(--color-surface);
+  /* Continues Projects' brightening trend: no row rhythm to breathe with
+     here (two-column layout, not a repeated list), so a single smooth
+     fade instead of bands, opening up toward Contact below. */
+  background: linear-gradient(
+    to bottom,
+    oklch(from var(--color-surface) l c h / 0.8) 0%,
+    oklch(from var(--color-surface) l c h / 0.3) 100%
+  );
   position: relative;
   overflow: hidden;
   padding: clamp(var(--sp-10), 6vw, var(--sp-20)) 0;
@@ -87,6 +94,17 @@
 
 .iconItem:hover {
   transform: translateY(-2px);
+}
+
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: var(--sp-2);
+  background: var(--color-ink);
+  border-radius: 10px;
 }
 
 .iconName {

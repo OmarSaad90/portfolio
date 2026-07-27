@@ -1,5 +1,34 @@
+@property --corona-alpha {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.45;
+}
+
 .mascot {
   width: clamp(5.5rem, 9vw, 8rem);
   height: clamp(5.5rem, 9vw, 8rem);
   flex-shrink: 0;
+  position: relative;
+  --corona-alpha: 0.45;
+  transition: --corona-alpha 0.4s var(--ease-out-expo);
+}
+
+.mascot:hover {
+  --corona-alpha: 0.75;
+}
+
+.mascot::before {
+  content: '';
+  position: absolute;
+  inset: -35%;
+  z-index: -1;
+  background: radial-gradient(circle, oklch(from var(--color-accent) l c h / var(--corona-alpha)), transparent 70%);
+  filter: blur(18px) url(#sun-corona-turbulence);
+  pointer-events: none;
+  transform: scale(1);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.mascot:hover::before {
+  transform: scale(1.15);
 }

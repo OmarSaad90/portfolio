@@ -10,7 +10,7 @@
 }
 
 .nav.scrolled {
-  background: rgba(255, 255, 255, 0.92);
+  background: oklch(from var(--color-bg) l c h / 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 1px 0 var(--color-border);
@@ -64,7 +64,7 @@
 .cta {
   font-size: var(--text-sm);
   font-weight: 600;
-  color: white;
+  color: var(--color-on-fill);
   background: var(--color-primary);
   padding: var(--sp-2) var(--sp-5);
   border-radius: 2px;
@@ -73,7 +73,7 @@
 }
 
 .cta:hover {
-  background: oklch(0.380 0.175 232);
+  background: oklch(from var(--color-primary) calc(l + 0.05) c h);
   transform: translateY(-1px);
 }
 

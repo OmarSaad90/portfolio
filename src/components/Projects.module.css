@@ -1,5 +1,20 @@
 .section {
-  background: var(--color-surface);
+  /* Sun glow continuing down from the hero, plus a breathing tint instead of
+     a flat wash: near-opaque behind each project row, fading in the gaps
+     between rows so the cosmic backdrop's stars show through there. The
+     460px cycle approximates one row + gap; it won't line up pixel-perfect
+     with every row (heights vary with content), and that's fine since the
+     note card and screenshot both paint their own opaque backgrounds. */
+  background:
+    radial-gradient(ellipse 70% 380px at 50% 0%, oklch(from var(--color-accent) l c h / 0.14), transparent 70%) no-repeat top center,
+    repeating-linear-gradient(
+      to bottom,
+      oklch(from var(--color-surface) l c h / 0.94) 0px,
+      oklch(from var(--color-surface) l c h / 0.94) 240px,
+      oklch(from var(--color-surface) l c h / 0.4) 330px,
+      oklch(from var(--color-surface) l c h / 0.4) 370px,
+      oklch(from var(--color-surface) l c h / 0.94) 460px
+    );
   padding: clamp(var(--sp-16), 10vw, var(--sp-32)) 0;
 }
 
@@ -67,6 +82,28 @@
   z-index: 1;
 }
 
+/* Rim glow behind the screenshot on hover/focus, same blurred-halo technique
+   as the sun mascot's corona. Lives on .imageCol (not .previewLink, which
+   has overflow:hidden and would clip it) so it can bloom past the image's
+   rounded edge. */
+.imageCol::before {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  z-index: -1;
+  border-radius: 20px;
+  background: radial-gradient(ellipse at center, oklch(from var(--color-primary) l c h / 0.5), transparent 70%);
+  filter: blur(28px);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.imageCol:hover::before,
+.imageCol:focus-within::before {
+  opacity: 1;
+}
+
 .noteWrap {
   grid-column: 2;
   grid-row: 1;
@@ -107,7 +144,7 @@
   flex-direction: column;
   gap: var(--sp-1);
   border: 1px solid var(--color-border);
-  box-shadow: 0 12px 32px oklch(0.145 0.018 240 / 0.08);
+  box-shadow: 0 12px 32px oklch(0 0 0 / 0.45);
 }
 
 /* Oversized initial letter of the project name — faint background texture,
@@ -141,7 +178,7 @@
   font-size: var(--text-xs);
   font-weight: 600;
   color: var(--color-primary);
-  background: oklch(0.430 0.175 232 / 0.08);
+  background: oklch(from var(--color-primary) l c h / 0.14);
   padding: 3px var(--sp-3);
   border-radius: 20px;
   white-space: nowrap;
@@ -151,7 +188,7 @@
   font-size: var(--text-xs);
   font-weight: 600;
   color: var(--color-accent-text);
-  background: oklch(0.720 0.130 68 / 0.12);
+  background: oklch(from var(--color-accent) l c h / 0.16);
   padding: 2px var(--sp-3);
   border-radius: 2px;
   text-transform: uppercase;
@@ -206,7 +243,7 @@
 
 .link:hover {
   gap: var(--sp-3);
-  color: oklch(0.380 0.175 232);
+  color: oklch(from var(--color-primary) calc(l + 0.08) c h);
 }
 
 /* ─── Screenshot mockup ──────────────────────────────── */
@@ -232,8 +269,8 @@
 }
 
 .visitLabel {
-  background: white;
-  color: var(--color-ink);
+  background: var(--color-accent);
+  color: var(--color-on-fill);
   opacity: 0;
 }
 
@@ -242,7 +279,7 @@
 }
 
 .soonLabel {
-  background: oklch(0.720 0.130 68 / 0.15);
+  background: oklch(from var(--color-accent) l c h / 0.18);
   color: var(--color-accent-text);
   font-size: 10px;
   letter-spacing: 0.06em;
@@ -250,7 +287,7 @@
 }
 
 .preview {
-  background: var(--color-ink);
+  background: var(--color-surface);
   display: flex;
   flex-direction: column;
   width: 100%;

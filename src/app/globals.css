@@ -1,15 +1,17 @@
 /* ─── Tokens ─────────────────────────────────────────── */
 
 :root {
-  /* Colors */
-  --color-bg:      oklch(1.000 0.000   0);
-  --color-surface: oklch(0.960 0.010 232);
-  --color-primary: oklch(0.430 0.175 232);
-  --color-accent:      oklch(0.720 0.130  68);
-  --color-accent-text: oklch(0.420 0.140  68);   /* text-safe shade of accent; ≥4.5:1 on its own tint */
-  --color-ink:     oklch(0.145 0.018 240);
-  --color-muted:   oklch(0.460 0.015 240);
-  --color-border:  oklch(0.890 0.008 232);
+  /* Colors — cosmic dark theme: charcoal + wine-ash surfaces underneath the
+     sun mascot's warm amber, turquoise carrying interaction/precision. */
+  --color-bg:      oklch(0.255 0.0210 293);   /* cosmic charcoal */
+  --color-surface: oklch(0.294 0.0165 338);   /* wine ash — alternate section */
+  --color-primary: oklch(0.720 0.1200 195);   /* turquoise — links, CTAs, focus */
+  --color-accent:      oklch(0.800 0.160  96);   /* sun amber — mascot, warmth */
+  --color-accent-text: oklch(0.860 0.150  96);   /* lighter amber; text on its own tint */
+  --color-ink:     oklch(0.940 0.0120  90);   /* near-white body text, warm trace */
+  --color-muted:   oklch(0.720 0.0300 280);   /* secondary text — ≥4.5:1 on bg */
+  --color-border:  oklch(0.940 0.0120  90 / 0.14);  /* hairline on dark surfaces */
+  --color-on-fill: var(--color-bg);           /* dark text for use on bright fills (primary/accent) */
 
   /* Fonts — variables set by next/font */
   --font-display: var(--font-bricolage), system-ui, sans-serif;
@@ -51,6 +53,7 @@
   --ease-in-expo:  cubic-bezier(0.7, 0, 0.84, 0);
 
   /* Z-index scale */
+  --z-backdrop: -1;
   --z-base:    0;
   --z-raised:  10;
   --z-overlay: 50;
@@ -165,5 +168,5 @@ p {
 
 ::selection {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-fill);
 }

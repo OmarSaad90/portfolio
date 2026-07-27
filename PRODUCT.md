@@ -6,7 +6,7 @@ brand
 
 ## Users
 
-Primary: Prospective freelance clients — business owners in construction, law, education, and adjacent service industries — who have a website project in mind and are evaluating whether Omar is the right person to build it. Secondary: recruiters and employers open to hiring a frontend/full-stack developer. The visitor arrives from their laptop or phone mid-search, likely comparing a few developers. They want to feel immediately confident the person understands real business needs, not only technical ones.
+Primary: Prospective freelance clients — business owners across any industry, not scoped to a specific vertical — who have a website project in mind and are evaluating whether Omar is the right person to build it. Past clients span construction, law, education, and consulting, and those appear as real examples throughout the site, but copy should never read as if the work is limited to those industries. Secondary: recruiters and employers open to hiring a frontend/full-stack developer. The visitor arrives from their laptop or phone mid-search, likely comparing a few developers. They want to feel immediately confident the person understands real business needs, not only technical ones.
 
 ## Product Purpose
 
