@@ -1,0 +1,186 @@
+.section {
+  /* Open, same as Hero directly above it: Projects picks up the dimming
+     arc on its own top edge, so this stays transparent rather than
+     introducing a second tint before that gradient begins. */
+  position: relative;
+  padding: clamp(var(--sp-12), 7vw, var(--sp-20)) 0;
+}
+
+.container {
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 5rem);
+}
+
+/* ─── Section header ─────────────────────────────────── */
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-5);
+  margin-bottom: clamp(var(--sp-10), 5vw, var(--sp-16));
+}
+
+.sectionHeading {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.emphasis {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.count {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
+/* ─── Bento grid ──────────────────────────────────────── */
+/*
+  12-col desktop layout: dev(7)+design(5) row one, seo/webapps/deploy at 4
+  each row two, reno spans full width as a closing statement card. Cards
+  keep natural height (no stretch) so copy-length differences stay visible
+  rather than papered over with equal boxes.
+*/
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas:
+    'dev dev dev dev dev dev dev design design design design design'
+    'seo seo seo seo webapps webapps webapps webapps deploy deploy deploy deploy'
+    'reno reno reno reno reno reno reno reno reno reno reno reno';
+  gap: clamp(var(--sp-4), 2vw, var(--sp-6));
+  align-items: start;
+}
+
+.dev { grid-area: dev; }
+.design { grid-area: design; }
+.seo { grid-area: seo; }
+.webapps { grid-area: webapps; }
+.deploy { grid-area: deploy; }
+.reno { grid-area: reno; }
+
+/* ─── Card ────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: clamp(var(--sp-6), 3vw, var(--sp-8));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  transform-style: preserve-3d;
+  transition: border-color 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+}
+
+.card:hover {
+  border-color: oklch(from var(--color-primary) l c h / 0.45);
+  box-shadow: 0 16px 36px oklch(0 0 0 / 0.28);
+}
+
+/* ─── Magnetic spotlight ──────────────────────────────── */
+/* Pointer position is written to --glow-pos by the component (mouse/fine
+   pointer only); opacity is spring-driven so it fades in/out smoothly
+   rather than snapping. Absent entirely for touch, coarse pointers, and
+   prefers-reduced-motion, per useMagneticTilt. */
+
+.glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--glow-pos, 50% 50%), oklch(from var(--color-primary) l c h / 0.18), transparent 70%);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.cardText {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.6;
+  max-width: 42ch;
+}
+
+/* Feature card: Website Development, the primary offering, gets more
+   presence through scale, not a different visual language. */
+.feature {
+  padding: clamp(var(--sp-8), 4vw, var(--sp-10));
+}
+
+.feature .cardTitle {
+  font-size: var(--text-2xl);
+}
+
+.feature .cardText {
+  font-size: var(--text-base);
+  max-width: 46ch;
+}
+
+.design .cardTitle,
+.seo .cardTitle,
+.webapps .cardTitle,
+.deploy .cardTitle {
+  font-size: var(--text-lg);
+}
+
+/* Wide closing card: horizontal statement layout instead of stacked,
+   marking Renovation as a different kind of engagement, not just another
+   tile in the grid. */
+.wide {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(var(--sp-6), 4vw, var(--sp-12));
+  background: oklch(from var(--color-surface) l c h / 0.5);
+}
+
+.wide .cardTitle {
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+  max-width: 16ch;
+}
+
+.wide .cardText {
+  max-width: 52ch;
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'dev'
+      'design'
+      'seo'
+      'webapps'
+      'deploy'
+      'reno';
+  }
+
+  .wide {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+  }
+
+  .wide .cardTitle {
+    max-width: none;
+  }
+}

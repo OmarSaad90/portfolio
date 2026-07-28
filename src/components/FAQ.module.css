@@ -1,0 +1,179 @@
+.section {
+  /* Sits between About (brightening) and Contact (fully open): stays
+     transparent so the cosmic backdrop keeps resolving through it, no new
+     tint introduced for a section that's mostly about reading. */
+  position: relative;
+  padding: clamp(var(--sp-16), 9vw, var(--sp-28)) 0;
+}
+
+.inner {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: clamp(var(--sp-6), 5vw, var(--sp-12));
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+/* ─── Header ──────────────────────────────────────────── */
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: clamp(var(--sp-12), 6vw, var(--sp-16));
+}
+
+.heading {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  line-height: 1.1;
+}
+
+.heading em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-primary);
+}
+
+.subtext {
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  line-height: 1.65;
+  max-width: 42ch;
+}
+
+/* ─── List ────────────────────────────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border);
+}
+
+.item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ─── Trigger row ─────────────────────────────────────── */
+
+.itemHeading {
+  font-family: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  padding: clamp(var(--sp-5), 3vw, var(--sp-6)) var(--sp-2);
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.trigger:hover {
+  background: oklch(from var(--color-primary) l c h / 0.05);
+}
+
+.question {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  transition: color 0.2s;
+}
+
+.item.open .question {
+  color: var(--color-primary);
+}
+
+/* ─── Plus / cross icon ───────────────────────────────── */
+
+.icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.icon::before,
+.icon::after {
+  content: '';
+  position: absolute;
+  background: var(--color-primary);
+  border-radius: 1px;
+  transition: background 0.2s;
+}
+
+.icon::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.icon::after {
+  left: 50%;
+  top: 0;
+  height: 100%;
+  width: 1.5px;
+  transform: translateX(-50%);
+}
+
+.item.open .icon {
+  transform: rotate(45deg);
+}
+
+/* ─── Answer panel ────────────────────────────────────── */
+/* grid-template-rows 0fr -> 1fr animates height without measuring it in JS;
+   respects prefers-reduced-motion globally via globals.css's transition
+   override. */
+
+.answerWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease-out-expo);
+}
+
+.item.open .answerWrap {
+  grid-template-rows: 1fr;
+}
+
+.answerInner {
+  overflow: hidden;
+}
+
+.answer {
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  line-height: 1.65;
+  max-width: 62ch;
+  padding: 0 var(--sp-2) clamp(var(--sp-5), 3vw, var(--sp-6));
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .question {
+    font-size: var(--text-base);
+  }
+
+  .trigger {
+    gap: var(--sp-4);
+    padding-inline: 0;
+  }
+
+  .answer {
+    padding-inline: 0;
+  }
+}

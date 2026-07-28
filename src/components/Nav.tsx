@@ -23,8 +23,10 @@ export default function Nav() {
       <div className={styles.inner}>
         <nav aria-label="Primary navigation">
           <ul className={styles.links}>
+            <li><a href="#services" className={styles.link}>Services</a></li>
             <li><a href="#work" className={styles.link}>Work</a></li>
             <li><a href="#about" className={styles.link}>About</a></li>
+            <li><a href="#faq" className={styles.link}>FAQ</a></li>
             <li>
               <a href="#contact" className={styles.cta}>
                 Let&apos;s talk
