@@ -2,7 +2,7 @@
 
 ## Theme
 
-Dark. Cosmic charcoal and wine-ash surfaces put the sun mascot's warm amber in the position of an actual light source in a dark sky; turquoise carries interaction and precision where cobalt used to. Warmth still lives in the brand colors (amber, mascot, glow), not the background.
+Dark. Cosmic charcoal is the one page background, kept uniform from Hero through Contact so the starfield backdrop reads as a single continuous sky instead of banded sections; wine-ash is reserved for small opaque surfaces (cards, modals, image-loading placeholders), never a full-section wash. The sun mascot's warm amber sits against that dark sky as an actual light source; turquoise carries interaction and precision where cobalt used to. Warmth still lives in the brand colors (amber, mascot, glow), not the background.
 
 ## Colors
 
@@ -12,7 +12,7 @@ All values in OKLCH.
 :root {
   /* Surface */
   --color-bg:      oklch(0.255 0.0210 293);   /* cosmic charcoal */
-  --color-surface: oklch(0.294 0.0165 338);   /* wine ash — alternate section bg */
+  --color-surface: oklch(0.294 0.0165 338);   /* wine ash — cards, modals, placeholders only, never a section bg */
 
   /* Brand */
   --color-primary:     oklch(0.720 0.1200 195);   /* turquoise — links, CTAs, focus */
@@ -34,7 +34,7 @@ All values in OKLCH.
 - `--color-accent` (amber) on `--color-bg`: ≈8.5:1
 - `--color-on-fill` (dark) on `--color-primary` or `--color-accent` fills: ≈6.7:1 / 8.5:1 — white text on either fill only hits ~2.4:1, so filled buttons/pills use dark text, never white.
 
-**Color strategy:** Committed — cosmic charcoal/wine-ash carry the surface, turquoise carries interaction (30-60% of visual identity where cobalt used to sit), amber is reserved for the sun mascot and its halo plus sparing CTA/badge use. Never use both saturated colors in close proximity.
+**Color strategy:** Committed — cosmic charcoal carries the page background uniformly (Hero through Contact; no section-level surface tint), turquoise carries interaction (30-60% of visual identity where cobalt used to sit), amber is reserved for the sun mascot and its halo plus sparing CTA/badge use. Never use both saturated colors in close proximity.
 
 **Retuning alpha variants:** hover/tint states derive from the base tokens via CSS relative-color syntax (`oklch(from var(--color-primary) l c h / 0.35)` etc.) instead of hardcoded duplicate shades, so changing a base token retunes every derived state with it.
 

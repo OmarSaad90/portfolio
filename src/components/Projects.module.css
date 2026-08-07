@@ -1,20 +1,8 @@
 .section {
-  /* Sun glow continuing down from the hero, plus a breathing tint instead of
-     a flat wash: near-opaque behind each project row, fading in the gaps
-     between rows so the cosmic backdrop's stars show through there. The
-     460px cycle approximates one row + gap; it won't line up pixel-perfect
-     with every row (heights vary with content), and that's fine since the
-     note card and screenshot both paint their own opaque backgrounds. */
-  background:
-    radial-gradient(ellipse 70% 380px at 50% 0%, oklch(from var(--color-accent) l c h / 0.14), transparent 70%) no-repeat top center,
-    repeating-linear-gradient(
-      to bottom,
-      oklch(from var(--color-surface) l c h / 0.94) 0px,
-      oklch(from var(--color-surface) l c h / 0.94) 240px,
-      oklch(from var(--color-surface) l c h / 0.4) 330px,
-      oklch(from var(--color-surface) l c h / 0.4) 370px,
-      oklch(from var(--color-surface) l c h / 0.94) 460px
-    );
+  /* Same open background as Hero/Services/About/FAQ: fully transparent so
+     the cosmic backdrop's starfield reads as one continuous sky, no tint
+     or glow introduced at the section seams. */
+  position: relative;
   padding: clamp(var(--sp-16), 10vw, var(--sp-32)) 0;
 }
 
