@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Bricolage_Grotesque, Manrope, Piazzolla } from 'next/font/google'
 import { MotionConfig } from 'motion/react'
 import CosmicBackdrop from '@/components/CosmicBackdrop'
+import NebulaField from '@/components/NebulaField'
 import './globals.css'
 
 const bricolage = Bricolage_Grotesque({
@@ -80,6 +81,7 @@ export default function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        <NebulaField />
         <CosmicBackdrop />
         <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>

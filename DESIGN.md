@@ -91,13 +91,13 @@ Section vertical padding: `clamp(4rem, 8vw, 8rem)`. Content max-width: 1100px. T
 
 Single scrolling page with clear section cadence. Each section breathes — no cramped stacking. Grid: 12-column, 24px gutter on desktop, 16px on mobile.
 
-**Sections (in order):**
+**Sections (in order):** Hero → Services → Work (Projects) → About → FAQ → Contact.
 1. Hero — name, role, value proposition, primary CTA
-2. About — short personal story, craft philosophy
-3. Work — selected projects, 3-5 pieces, shown with care (not identical card grid)
-4. Contact — direct, warm, low-friction
-
-Project detail pages at `/projects/[slug]` expand individual case studies.
+2. Services — bento grid, 6 offerings, deliberately not an identical card grid
+3. Work — selected projects, shown with care (not identical card grid); each screenshot expands in place via a modal (`ProjectOverlay`), not a routed page — there is no `/projects/[slug]`, browsing between projects happens inside the modal via prev/next
+4. About — short personal story, craft philosophy
+5. FAQ — centered accordion, the one deliberately centered section
+6. Contact — direct, warm, low-friction
 
 ## Motion
 
@@ -131,6 +131,14 @@ Library: **Motion** (formerly Framer Motion). All animations respect `prefers-re
 **Sun mascot:** Amber blob (`--color-accent`) is the one fixed identity element. Its eyes/smile use `--color-bg` (not `--color-ink`) so the face stays dark-on-amber regardless of theme direction. A blurred radial-gradient halo in `--color-accent` sits behind it (`SunMascot.module.css`) so it reads as a light source against the dark sky.
 
 **Tech-stack icons (About):** sit on small `--color-ink` tiles (46px, 10px radius) so single-color/dark brand logos (e.g. the solid-black Next.js mark) stay visible regardless of the icon's own palette.
+
+**Cosmic backdrop, two layers (`layout.tsx`, mounted once, global):**
+- `NebulaField.tsx` — a WebGL2 fragment shader painting two soft fbm-noise color fields (turquoise/amber, on-brand hues converted from their OKLCH tokens) that drift slowly and nudge with cursor/scroll. `--z-nebula` (-2), sits beneath the star canvas. Additive/premultiplied, capped low-alpha so it never touches the measured text-contrast baselines above. WebGL2-only with no fallback content needed: absent entirely (no canvas mounted) when unsupported or `prefers-reduced-motion` is on, since the star canvas underneath is already a complete backdrop on its own. Context creation is deferred via `requestIdleCallback` so it never competes with first paint.
+- `CosmicBackdrop.tsx` — the original star canvas (`--z-backdrop`, -1), now also spawns a rare shooting star (one at a time, roughly every 16-34s): a diagonal streak with a gradient trail, drawn in plain viewport space. Skipped under reduced motion along with the rest of the canvas's animation.
+
+**Project overlay navigation (`ProjectOverlay.tsx`):** prev/next controls (buttons + arrow keys) let a visitor browse all projects without closing the modal, cycling with wraparound. Reuses the existing `project-image-${id}` View Transition name scheme from the grid↔overlay morph, so advancing produces a genuine double shared-element transition: the current screenshot shrinks back into its grid slot while the next one grows out of its own.
+
+**Contact send moment (`Contact.tsx`):** the submit button gets a sweeping highlight while the request is in flight (continuous feedback, not a static "Sending…" label). On success, a small amber spark (same corona-glow technique as the sun mascot) scales in with a brief flash and a burst of 8 particles, replacing the old plain checkmark. Particles are skipped and the spark just fades in under reduced motion.
 
 ## Tokens — do not use
 

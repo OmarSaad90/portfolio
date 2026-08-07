@@ -130,7 +130,7 @@
   border: none;
   border-bottom: 1.5px solid oklch(from var(--color-primary) l c h / 0.35);
   border-radius: 0;
-  padding: var(--sp-3) 0;
+  padding: var(--sp-3) 2px;
 }
 
 .input:focus {
@@ -152,6 +152,8 @@
 }
 
 .submit {
+  position: relative;
+  overflow: hidden;
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
@@ -175,6 +177,29 @@
   cursor: not-allowed;
 }
 
+/* Sweeping highlight while the request is in flight: continuous feedback
+   instead of a static "Sending…" label sitting still for however long the
+   request takes. */
+.submit[data-sending='true']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, oklch(from var(--color-on-fill) l c h / 0.3) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: submitSweep 1.1s linear infinite;
+}
+
+@keyframes submitSweep {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .submit[data-sending='true']::after {
+    animation: none;
+  }
+}
+
 .errorMsg {
   font-size: var(--text-sm);
   color: oklch(0.70 0.19 25);
@@ -194,18 +219,41 @@
   padding-top: var(--sp-2);
 }
 
-.sentIcon {
+/* Small amber spark, same corona-glow technique as the sun mascot, marking
+   the message's arrival rather than a generic checkmark. */
+.spark {
+  position: relative;
   width: 44px;
   height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-primary);
-  color: var(--color-on-fill);
-  border-radius: 50%;
-  font-size: 1.1rem;
-  font-weight: 700;
   flex-shrink: 0;
+}
+
+.sparkCore {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.sparkCore::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(from var(--color-accent) l c h / 0.5), transparent 70%);
+  filter: blur(12px);
+}
+
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: var(--color-accent);
 }
 
 .sentMessage p {

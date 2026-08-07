@@ -21,6 +21,22 @@ interface Star {
   depth: 0 | 1 | 2
 }
 
+interface ShootingStar {
+  startX: number
+  startY: number
+  dx: number
+  dy: number
+  startElapsed: number
+  duration: number
+  travelDistance: number
+  length: number
+}
+
+// 5–10s between appearances.
+function randomSpawnGap() {
+  return 5 + Math.random() * 5
+}
+
 function buildStars(width: number, fieldHeight: number): Star[] {
   const count = Math.min(MAX_STARS, Math.round(width * fieldHeight * STAR_DENSITY))
   const stars: Star[] = []
@@ -62,6 +78,8 @@ export default function CosmicBackdrop() {
     let height = 0
     let fieldHeight = 0
     let rafId = 0
+    let shootingStar: ShootingStar | null = null
+    let nextSpawnAt = randomSpawnGap()
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -74,6 +92,62 @@ export default function CosmicBackdrop() {
       canvasEl.style.height = `${height}px`
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
       stars = buildStars(width, fieldHeight)
+      shootingStar = null
+    }
+
+    // Rare diagonal streak crossing the upper sky, spawned on its own
+    // schedule (see randomSpawnGap). Drawn in plain viewport space, not
+    // tied to the depth-parallax field, since it's a one-off transient
+    // rather than part of the ambient star layer.
+    function maybeSpawnShootingStar(elapsed: number) {
+      if (shootingStar || elapsed < nextSpawnAt) return
+      const angle = (18 + Math.random() * 22) * (Math.PI / 180)
+      shootingStar = {
+        startX: width * (0.05 + Math.random() * 0.5),
+        startY: height * (0.05 + Math.random() * 0.3),
+        dx: Math.cos(angle),
+        dy: Math.sin(angle),
+        startElapsed: elapsed,
+        duration: 0.8 + Math.random() * 0.4,
+        travelDistance: width * (0.32 + Math.random() * 0.22),
+        length: 90 + Math.random() * 70,
+      }
+    }
+
+    function drawShootingStar(elapsed: number) {
+      if (!shootingStar) return
+      const s = shootingStar
+      const t = (elapsed - s.startElapsed) / s.duration
+      if (t >= 1) {
+        shootingStar = null
+        nextSpawnAt = elapsed + randomSpawnGap()
+        return
+      }
+
+      // Quick fade in, brief hold, longer fade out, so it reads as a
+      // streak rather than an abrupt on/off blink.
+      const envelope = t < 0.15 ? t / 0.15 : t > 0.75 ? (1 - t) / 0.25 : 1
+      const headX = s.startX + s.dx * s.travelDistance * t
+      const headY = s.startY + s.dy * s.travelDistance * t
+      const tailX = headX - s.dx * s.length
+      const tailY = headY - s.dy * s.length
+
+      const gradient = context.createLinearGradient(tailX, tailY, headX, headY)
+      gradient.addColorStop(0, `rgba(${STAR_RGB}, 0)`)
+      gradient.addColorStop(1, `rgba(${STAR_RGB}, ${0.85 * envelope})`)
+
+      context.beginPath()
+      context.strokeStyle = gradient
+      context.lineWidth = 1.6
+      context.lineCap = 'round'
+      context.moveTo(tailX, tailY)
+      context.lineTo(headX, headY)
+      context.stroke()
+
+      context.beginPath()
+      context.fillStyle = `rgba(${STAR_RGB}, ${envelope})`
+      context.arc(headX, headY, 1.4, 0, Math.PI * 2)
+      context.fill()
     }
 
     function drawStatic() {
@@ -113,6 +187,9 @@ export default function CosmicBackdrop() {
         context.arc(star.x, y, star.r, 0, Math.PI * 2)
         context.fill()
       }
+
+      maybeSpawnShootingStar(elapsed)
+      drawShootingStar(elapsed)
 
       rafId = requestAnimationFrame(frame)
     }

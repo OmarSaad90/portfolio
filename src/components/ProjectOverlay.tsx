@@ -10,10 +10,14 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 interface ProjectOverlayProps {
   project: Project
+  index: number
+  total: number
   onClose: () => void
+  onPrev: () => void
+  onNext: () => void
 }
 
-export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
+export default function ProjectOverlay({ project, index, total, onClose, onPrev, onNext }: ProjectOverlayProps) {
   const reduceMotion = useReducedMotion()
   const closeRef = useRef<HTMLButtonElement>(null)
 
@@ -22,6 +26,8 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') onPrev()
+      if (e.key === 'ArrowRight') onNext()
     }
     document.addEventListener('keydown', onKeyDown)
 
@@ -32,7 +38,7 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
       document.removeEventListener('keydown', onKeyDown)
       document.body.style.overflow = overflow
     }
-  }, [onClose])
+  }, [onClose, onPrev, onNext])
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
@@ -59,6 +65,31 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
           </svg>
         </button>
 
+        {total > 1 && (
+          <>
+            <button
+              type="button"
+              className={`${styles.navButton} ${styles.navPrev}`}
+              onClick={onPrev}
+              aria-label="Previous project"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M11 3L5 9l6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className={`${styles.navButton} ${styles.navNext}`}
+              onClick={onNext}
+              aria-label="Next project"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M7 3l6 6-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </>
+        )}
+
         <div
           className={styles.imageWrap}
           style={{ viewTransitionName: `project-image-${project.id}` } as CSSProperties}
@@ -80,6 +111,9 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
             <span className={styles.categoryPill}>{project.category}</span>
             {project.status === 'coming-soon' && (
               <span className={styles.comingSoonBadge}>Coming soon</span>
+            )}
+            {total > 1 && (
+              <span className={styles.counter}>{index + 1} / {total}</span>
             )}
           </div>
           <p className={styles.description}>{project.description}</p>

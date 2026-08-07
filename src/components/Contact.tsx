@@ -1,13 +1,22 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import styles from './Contact.module.css'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
+// A small burst of light on send: 8 points evenly spread around the spark,
+// distance varied slightly so it doesn't read as a perfect mechanical ring.
+const BURST_PARTICLES = Array.from({ length: 8 }, (_, i) => {
+  const angle = (i / 8) * Math.PI * 2 + 0.3
+  const dist = 28 + (i % 3) * 9
+  return { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist, delay: (i % 4) * 0.02 }
+})
+
 export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const reduceMotion = useReducedMotion()
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -88,7 +97,24 @@ export default function Contact() {
         >
           {status === 'sent' ? (
             <div className={styles.sentMessage} role="status">
-              <span className={styles.sentIcon}>✓</span>
+              <div className={styles.spark} aria-hidden="true">
+                {!reduceMotion &&
+                  BURST_PARTICLES.map((p, i) => (
+                    <motion.span
+                      key={i}
+                      className={styles.particle}
+                      initial={{ x: 0, y: 0, opacity: 1 }}
+                      animate={{ x: p.x, y: p.y, opacity: 0 }}
+                      transition={{ duration: 0.75, delay: 0.05 + p.delay, ease: EASE }}
+                    />
+                  ))}
+                <motion.span
+                  className={styles.sparkCore}
+                  initial={{ scale: reduceMotion ? 1 : 0.4, opacity: 0 }}
+                  animate={{ scale: reduceMotion ? 1 : [0.4, 1.15, 1], opacity: 1 }}
+                  transition={{ duration: 0.55, times: reduceMotion ? undefined : [0, 0.6, 1], ease: EASE }}
+                />
+              </div>
               <p>Got it. I&apos;ll be in touch shortly.</p>
             </div>
           ) : (
@@ -137,6 +163,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
+                data-sending={status === 'sending' ? 'true' : undefined}
                 className={styles.submit}
               >
                 {status === 'sending' ? 'Sending…' : 'Send message'}

@@ -25,18 +25,41 @@ function ProjectMockup({ name, image, transitionName }: { name: string; image: s
   )
 }
 
+type DocumentWithViewTransitions = Document & {
+  startViewTransition?: (cb: () => void) => { finished: Promise<void> }
+}
+
+// Guards against overlapping calls: the View Transitions API throws
+// InvalidStateError if startViewTransition() is called again while a
+// previous transition is still animating, which happens easily on quick
+// clicks or a held-down arrow key during prev/next. While one is in
+// flight, later calls just apply the DOM update directly (no morph for
+// that step) instead of racing a second transition.
+let transitionActive = false
+
 function startTransition(update: () => void) {
-  const doc = document as Document & { startViewTransition?: (cb: () => void) => void }
-  if (typeof doc.startViewTransition === 'function') {
-    doc.startViewTransition(update)
-  } else {
+  const doc = document as DocumentWithViewTransitions
+  if (typeof doc.startViewTransition !== 'function' || transitionActive) {
     update()
+    return
   }
+  transitionActive = true
+  const transition = doc.startViewTransition(update)
+  transition.finished.finally(() => {
+    transitionActive = false
+  })
 }
 
 export default function Projects() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const expandedProject = projects.find((p) => p.id === expandedId) ?? null
+  const expandedIndex = projects.findIndex((p) => p.id === expandedId)
+  const expandedProject = expandedIndex === -1 ? null : projects[expandedIndex]
+
+  function step(delta: number) {
+    if (expandedIndex === -1) return
+    const nextIndex = (expandedIndex + delta + projects.length) % projects.length
+    startTransition(() => setExpandedId(projects[nextIndex].id))
+  }
 
   return (
     <section id="work" className={styles.section}>
@@ -122,7 +145,11 @@ export default function Projects() {
         {expandedProject && (
           <ProjectOverlay
             project={expandedProject}
+            index={expandedIndex}
+            total={projects.length}
             onClose={() => startTransition(() => setExpandedId(null))}
+            onPrev={() => step(-1)}
+            onNext={() => step(1)}
           />
         )}
       </AnimatePresence>
