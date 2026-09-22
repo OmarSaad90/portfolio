@@ -83,4 +83,28 @@ export const projects: Project[] = [
     status: 'live',
     image: '/projects/tilux.jpg',
   },
+  {
+    id: 'welzel-law',
+    name: 'Welzel Law',
+    domain: 'welzellaw1.netlify.app',
+    url: 'https://welzellaw1.netlify.app/',
+    category: 'Business & real estate law',
+    description:
+      'Boutique counsel for business owners and real estate investors across Ontario, covering business law, fractional general counsel, and real estate law.',
+    tech: ['Next.js', 'TypeScript', 'React'],
+    status: 'live',
+    image: '/projects/welzel.png',
+  },
+  {
+    id: 'travo-group',
+    name: 'Travo Group',
+    domain: 'travogroup.netlify.app',
+    url: 'https://travogroup.netlify.app/',
+    category: 'Civil engineering & construction',
+    description:
+      'A leading force in building and civil engineering across the Middle East since 1971. Founded in Oman and expanded internationally, showcasing infrastructure work spanning highways, marine works, and oil & gas facilities.',
+    tech: ['HTML', 'CSS', 'JS'],
+    status: 'live',
+    image: '/projects/travogroup.png',
+  },
 ]
